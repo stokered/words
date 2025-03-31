@@ -172,7 +172,7 @@ window.onload = () => {
 
   document.getElementById('allBtn').addEventListener('click', () => {
     if (!wordsLoaded) return showToast("⏳ Still loading words...");
-    // initShowAllWords(); // ⬅️ Disabled to prevent word list from showing on page load
+    initShowAllWords(); // ✅ Called only when 'Show all words' button is clicked
   });
 
   document.getElementById('addWordForm').addEventListener('submit', addNewWord);
