@@ -2,7 +2,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebas
 import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
-// 🔥 Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyAtow4_eedoVN1W4p4BQyOVd8tFR9_U5uo",
   authDomain: "sams-dictionary.firebaseapp.com",
@@ -18,7 +17,6 @@ const db = getDatabase(app);
 const auth = getAuth();
 const wordsRef = ref(db, 'words');
 
-// 🌍 Word storage
 let currentUser = null;
 let words = [];
 let firebaseWords = [];
@@ -28,7 +26,6 @@ let currentIndex = 0;
 const wordsPerLoad = 20;
 let wordsLoaded = false;
 
-// 📁 Load JSON words
 function loadWordsFromJSON() {
   return fetch('./words.json')
     .then(response => response.json())
@@ -37,7 +34,6 @@ function loadWordsFromJSON() {
     });
 }
 
-// ☁️ Load Firebase words
 function loadWordsFromFirebase() {
   return new Promise(resolve => {
     onValue(wordsRef, snapshot => {
@@ -51,42 +47,45 @@ function loadWordsFromFirebase() {
   });
 }
 
-// 🧠 Merge both
 async function loadAllWords() {
   await loadWordsFromJSON();
   await loadWordsFromFirebase();
   words = [...jsonWords, ...firebaseWords];
   wordsLoaded = true;
   console.log(`✅ Loaded ${words.length} words total`);
-  initShowAllWords();
 }
 
-// 🔐 Login
 function loginUser(e) {
   e.preventDefault();
   const email = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value;
   signInWithEmailAndPassword(auth, email, password)
-    .then(() => showToast('✅ Logged in!'))
+    .then(() => {
+      showToast('✅ Logged in!');
+      document.getElementById('loginForm').style.display = 'none';
+      document.getElementById('loginStatus').style.display = 'block';
+    })
     .catch(error => showToast('❌ ' + error.message));
 }
 
-// 🔐 Auth state check
 onAuthStateChanged(auth, user => {
   currentUser = user;
   const status = document.getElementById('loginStatus');
-  const addSection = document.getElementById('addWordSection');
+  const addBtn = document.getElementById('toggleAddForm');
 
   if (user) {
     status.textContent = `Logged in as ${user.email}`;
-    addSection.style.display = 'block';
+    status.style.display = 'block';
+    addBtn.style.display = 'inline-block';
+    document.getElementById('loginForm').style.display = 'none';
   } else {
     status.textContent = 'not logged in';
-    addSection.style.display = 'none';
+    status.style.display = 'block';
+    addBtn.style.display = 'none';
+    document.getElementById('loginForm').style.display = 'block';
   }
 });
 
-// ➕ Add word
 function addNewWord(e) {
   e.preventDefault();
   if (!currentUser) return showToast("Please log in to add words.");
@@ -98,31 +97,28 @@ function addNewWord(e) {
   const newEntry = { word, class: wordClass, definition };
   push(wordsRef, newEntry);
   e.target.reset();
+  document.getElementById('addWordSection').style.display = 'none';
   showToast(`✨ Added "${word}" to the cloud!`);
 }
 
-// 🎲 Show random word
 function showRandomWord() {
-  if (words.length === 0) return;
+  if (!wordsLoaded || words.length === 0) return;
   const randomIndex = Math.floor(Math.random() * words.length);
-  displayWord(words[randomIndex]);
-}
-
-// 📖 Show one word
-function displayWord(entry) {
+  const entry = words[randomIndex];
   const output = document.getElementById('output');
   output.innerHTML = `<strong>${entry.word}</strong> (${entry.class}): ${entry.definition}`;
+  output.style.display = 'block';
 }
 
-// 📚 Show all (initial & filtered)
 function initShowAllWords(filtered = words) {
   currentIndex = 0;
   sortedWords = [...filtered].sort((a, b) => a.word.localeCompare(b.word));
-  document.getElementById('output').innerHTML = '';
+  const output = document.getElementById('output');
+  output.innerHTML = '';
+  output.style.display = 'block';
   loadMoreWords();
 }
 
-// ➕ Infinite scroll
 function loadMoreWords() {
   const output = document.getElementById('output');
   const nextWords = sortedWords.slice(currentIndex, currentIndex + wordsPerLoad);
@@ -134,7 +130,15 @@ function loadMoreWords() {
   currentIndex += wordsPerLoad;
 }
 
-// 🔍 Search bar
+function handleScroll() {
+  if (
+    window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 &&
+    currentIndex < sortedWords.length
+  ) {
+    loadMoreWords();
+  }
+}
+
 function handleSearch() {
   const query = document.getElementById('searchInput').value.toLowerCase();
   const filtered = words.filter(entry =>
@@ -144,7 +148,6 @@ function handleSearch() {
   initShowAllWords(filtered);
 }
 
-// 🪄 Toast popup
 function showToast(message) {
   const toast = document.getElementById('toast');
   toast.textContent = message;
@@ -154,7 +157,11 @@ function showToast(message) {
   }, 2500);
 }
 
-// 🚀 Init
+function toggleAddForm() {
+  const form = document.getElementById('addWordSection');
+  form.style.display = form.style.display === 'block' ? 'none' : 'block';
+}
+
 window.onload = () => {
   loadAllWords();
 
@@ -171,16 +178,12 @@ window.onload = () => {
   document.getElementById('addWordForm').addEventListener('submit', addNewWord);
   document.getElementById('loginForm').addEventListener('submit', loginUser);
   document.getElementById('searchInput').addEventListener('input', handleSearch);
+  document.getElementById('toggleAddForm').addEventListener('click', toggleAddForm);
   window.addEventListener('scroll', handleScroll);
   document.getElementById('email').focus();
-};
 
-// 🌀 Scroll trigger
-function handleScroll() {
-  if (
-    window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 &&
-    currentIndex < sortedWords.length
-  ) {
-    loadMoreWords();
-  }
-}
+  // Hide add word form and login status by default
+  document.getElementById('addWordSection').style.display = 'none';
+  document.getElementById('loginStatus').style.display = 'none';
+  document.getElementById('output').style.display = 'none';
+};

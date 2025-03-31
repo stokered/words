@@ -4,13 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>sam's dictionary</title>
-  <link rel="icon" type="image/x-icon" href="favicon.png">
+  <link rel="icon" type="image/x-icon" href="favicon.png" />
   <link rel="stylesheet" href="./styles.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap" rel="stylesheet" />
 </head>
 <body>
+  <!-- 🔐 Login Form -->
   <form id="loginForm">
     <input type="email" id="email" placeholder="email" required />
     <input type="password" id="password" placeholder="password" required />
@@ -19,32 +20,41 @@
 
   <p id="loginStatus">not logged in</p>
 
+  <!-- 🔠 Dictionary Header -->
   <h1>sam's dictionary</h1>
 
+  <!-- 🔍 Search -->
   <input type="text" id="searchInput" placeholder="search words..." />
-  <button id="randomBtn">get me a random word</button>
+  <button id="randomBtn">get a random word</button>
   <button id="allBtn">show all words</button>
 
+  <!-- ➕ Toggle Button for Adding Words -->
+  <button id="toggleAddForm" style="display: none;">add a new word</button>
+
+  <!-- 📝 Hidden Add Form (toggle visible when button clicked) -->
   <div id="addWordSection" style="display: none;">
     <h2>add new word</h2>
     <form id="addWordForm">
-      <input type="text" id="newWord" placeholder="Word" required />
+      <input type="text" id="newWord" placeholder="word" required />
       <select id="newClass" required>
-        <option value="">Part of Speech</option>
-        <option value="noun">Noun</option>
-        <option value="verb">Verb</option>
-        <option value="adjective">Adjective</option>
-        <option value="adverb">Adverb</option>
+        <option value="">part of speech</option>
+        <option value="noun">noun</option>
+        <option value="verb">verb</option>
+        <option value="adjective">adjective</option>
+        <option value="adverb">adverb</option>
       </select>
       <input type="text" id="newDefinition" placeholder="Definition" required />
-      <button type="submit">Add Word</button>
+      <button type="submit">add word</button>
     </form>
-    <button id="exportBtn">Export JSON</button>
   </div>
 
+  <!-- 📤 Word Display -->
   <div id="output"></div>
+
+  <!-- 🔔 Toast Notification -->
   <div id="toast" class="toast"></div>
 
+  <!-- 📜 Script -->
   <script type="module" src="./script.js"></script>
 </body>
 </html>
