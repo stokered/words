@@ -106,7 +106,10 @@ function showRandomWord() {
   const randomIndex = Math.floor(Math.random() * words.length);
   const entry = words[randomIndex];
   const output = document.getElementById('output');
-  output.innerHTML = `<strong>${entry.word}</strong> (${entry.class}): ${entry.definition}`;
+  output.innerHTML = '';
+  const div = document.createElement('div');
+  div.innerHTML = `<strong>${entry.word}</strong> (${entry.class}): ${entry.definition}`;
+  output.appendChild(div);
   output.style.display = 'block';
 }
 
@@ -172,7 +175,7 @@ window.onload = () => {
 
   document.getElementById('allBtn').addEventListener('click', () => {
     if (!wordsLoaded) return showToast("⏳ Still loading words...");
-    initShowAllWords(); // ✅ Called only when 'Show all words' button is clicked
+    initShowAllWords();
   });
 
   document.getElementById('addWordForm').addEventListener('submit', addNewWord);

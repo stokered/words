@@ -1,41 +1,69 @@
+/* 🌒 Dark Academia x Lovecraftian Spellbook Theme 🌘 */
+
 body {
     font-family: "DM Serif Text", serif;
+    background-color: #1e1c1a;
+    background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+    color: #eae0c8;
     text-align: center;
     padding: 2rem;
+    line-height: 1.6;
+  }
+  
+  h1, h2 {
+    color: #f2e9dc;
+    text-shadow: 0 0 2px rgba(255, 235, 200, 0.4);
   }
   
   button {
     margin: 1rem;
-    padding: 1rem;
+    padding: 0.8rem 1.5rem;
     font-size: 1rem;
     cursor: pointer;
     font-family: "DM Serif Text", serif;
+    background: linear-gradient(145deg, #3b2f2f, #2e2323);
+    color: #f4e9d8;
+    border: 1px solid #5c4b3b;
+    border-radius: 10px;
+    box-shadow: inset 0 0 0.5em rgba(255,255,255,0.1), 0 0 0.4em rgba(0,0,0,0.5);
+    transition: all 0.3s ease;
+  }
+  
+  button:hover {
+    background: #4b3d3d;
+    transform: translateY(-2px);
   }
   
   #output {
     margin-top: 2rem;
     text-align: left;
-    max-width: 600px;
+    max-width: 700px;
     margin-left: auto;
     margin-right: auto;
     font-family: "DM Serif Text", serif;
+    background: rgba(30, 28, 26, 0.85);
+    padding: 1.5rem;
+    border-radius: 10px;
+    border: 1px solid #3a2e2e;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
   }
   
-/* Toast Notification */
-.toast {
+  /* Toast Notification */
+  .toast {
     position: fixed;
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #333;
-    color: #fff;
+    background-color: #2f2727;
+    color: #e5d4b8;
     padding: 12px 24px;
     border-radius: 8px;
     font-size: 1rem;
     opacity: 0;
     transition: opacity 0.5s ease, bottom 0.5s ease;
     z-index: 1000;
-    font-family: "DM Serif Text", serif;
+    border: 1px solid #5a4747;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.6);
   }
   
   .toast.show {
@@ -50,23 +78,49 @@ body {
     width: 100%;
     max-width: 400px;
     border-radius: 8px;
-    border: 1px solid #ccc;
+    border: 1px solid #726050;
+    background-color: #2a2520;
+    color: #eae0c8;
     font-family: "DM Serif Text", serif;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);
   }
   
-  .dm-serif-text-regular {
+  input, select, option {
     font-family: "DM Serif Text", serif;
-    font-weight: 400;
-    font-style: normal;
+    background-color: #2a2520;
+    color: #eae0c8;
+    border: 1px solid #5a4747;
+    padding: 0.5rem;
+    border-radius: 6px;
   }
   
-  .dm-serif-text-regular-italic {
-    font-family: "DM Serif Text", serif;
-    font-weight: 400;
+  input:focus, select:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(255, 240, 200, 0.5);
+  }
+  
+  #addWordSection {
+    background: rgba(46, 39, 35, 0.9);
+    border: 1px solid #4c3b2a;
+    padding: 1rem;
+    max-width: 600px;
+    margin: 2rem auto;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+  }
+  
+  #loginForm {
+    margin-bottom: 1rem;
+    background: rgba(36, 32, 28, 0.9);
+    padding: 1rem;
+    border-radius: 10px;
+    border: 1px solid #3d2f2f;
+    display: inline-block;
+  }
+  
+  #loginStatus {
+    margin: 1rem;
     font-style: italic;
+    color: #c2b09e;
   }
   
-
-input {
-    font-family: "DM Serif Text", serif;
-}
