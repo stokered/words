@@ -2,6 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebas
 import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
+// 🔥 Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyAtow4_eedoVN1W4p4BQyOVd8tFR9_U5uo",
   authDomain: "sams-dictionary.firebaseapp.com",
@@ -17,23 +18,50 @@ const db = getDatabase(app);
 const auth = getAuth();
 const wordsRef = ref(db, 'words');
 
+// 🌍 Word storage
 let currentUser = null;
 let words = [];
+let firebaseWords = [];
+let jsonWords = [];
 let sortedWords = [];
 let currentIndex = 0;
 const wordsPerLoad = 20;
+let wordsLoaded = false;
 
+// 📁 Load JSON words
+function loadWordsFromJSON() {
+  return fetch('./words.json')
+    .then(response => response.json())
+    .then(data => {
+      jsonWords = data;
+    });
+}
+
+// ☁️ Load Firebase words
 function loadWordsFromFirebase() {
-  onValue(wordsRef, snapshot => {
-    const data = snapshot.val();
-    words = [];
-    for (let id in data) {
-      words.push(data[id]);
-    }
-    initShowAllWords();
+  return new Promise(resolve => {
+    onValue(wordsRef, snapshot => {
+      const data = snapshot.val();
+      firebaseWords = [];
+      for (let id in data) {
+        firebaseWords.push(data[id]);
+      }
+      resolve();
+    });
   });
 }
 
+// 🧠 Merge both
+async function loadAllWords() {
+  await loadWordsFromJSON();
+  await loadWordsFromFirebase();
+  words = [...jsonWords, ...firebaseWords];
+  wordsLoaded = true;
+  console.log(`✅ Loaded ${words.length} words total`);
+  initShowAllWords();
+}
+
+// 🔐 Login
 function loginUser(e) {
   e.preventDefault();
   const email = document.getElementById('email').value.trim();
@@ -43,6 +71,7 @@ function loginUser(e) {
     .catch(error => showToast('❌ ' + error.message));
 }
 
+// 🔐 Auth state check
 onAuthStateChanged(auth, user => {
   currentUser = user;
   const status = document.getElementById('loginStatus');
@@ -57,6 +86,7 @@ onAuthStateChanged(auth, user => {
   }
 });
 
+// ➕ Add word
 function addNewWord(e) {
   e.preventDefault();
   if (!currentUser) return showToast("Please log in to add words.");
@@ -71,17 +101,20 @@ function addNewWord(e) {
   showToast(`✨ Added "${word}" to the cloud!`);
 }
 
-function displayWord(entry) {
-  const output = document.getElementById('output');
-  output.innerHTML = `<strong>${entry.word}</strong> (${entry.class}): ${entry.definition}`;
-}
-
+// 🎲 Show random word
 function showRandomWord() {
   if (words.length === 0) return;
   const randomIndex = Math.floor(Math.random() * words.length);
   displayWord(words[randomIndex]);
 }
 
+// 📖 Show one word
+function displayWord(entry) {
+  const output = document.getElementById('output');
+  output.innerHTML = `<strong>${entry.word}</strong> (${entry.class}): ${entry.definition}`;
+}
+
+// 📚 Show all (initial & filtered)
 function initShowAllWords(filtered = words) {
   currentIndex = 0;
   sortedWords = [...filtered].sort((a, b) => a.word.localeCompare(b.word));
@@ -89,6 +122,7 @@ function initShowAllWords(filtered = words) {
   loadMoreWords();
 }
 
+// ➕ Infinite scroll
 function loadMoreWords() {
   const output = document.getElementById('output');
   const nextWords = sortedWords.slice(currentIndex, currentIndex + wordsPerLoad);
@@ -100,15 +134,7 @@ function loadMoreWords() {
   currentIndex += wordsPerLoad;
 }
 
-function handleScroll() {
-  if (
-    window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 &&
-    currentIndex < sortedWords.length
-  ) {
-    loadMoreWords();
-  }
-}
-
+// 🔍 Search bar
 function handleSearch() {
   const query = document.getElementById('searchInput').value.toLowerCase();
   const filtered = words.filter(entry =>
@@ -118,6 +144,7 @@ function handleSearch() {
   initShowAllWords(filtered);
 }
 
+// 🪄 Toast popup
 function showToast(message) {
   const toast = document.getElementById('toast');
   toast.textContent = message;
@@ -127,13 +154,33 @@ function showToast(message) {
   }, 2500);
 }
 
+// 🚀 Init
 window.onload = () => {
-  loadWordsFromFirebase();
-  document.getElementById('randomBtn').addEventListener('click', showRandomWord);
-  document.getElementById('allBtn').addEventListener('click', () => initShowAllWords());
+  loadAllWords();
+
+  document.getElementById('randomBtn').addEventListener('click', () => {
+    if (!wordsLoaded) return showToast("⏳ Still loading words...");
+    showRandomWord();
+  });
+
+  document.getElementById('allBtn').addEventListener('click', () => {
+    if (!wordsLoaded) return showToast("⏳ Still loading words...");
+    initShowAllWords();
+  });
+
   document.getElementById('addWordForm').addEventListener('submit', addNewWord);
   document.getElementById('loginForm').addEventListener('submit', loginUser);
   document.getElementById('searchInput').addEventListener('input', handleSearch);
   window.addEventListener('scroll', handleScroll);
   document.getElementById('email').focus();
 };
+
+// 🌀 Scroll trigger
+function handleScroll() {
+  if (
+    window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 &&
+    currentIndex < sortedWords.length
+  ) {
+    loadMoreWords();
+  }
+}
