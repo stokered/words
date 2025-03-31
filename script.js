@@ -74,7 +74,7 @@ onAuthStateChanged(auth, user => {
   const addBtn = document.getElementById('toggleAddForm');
 
   if (user) {
-    status.textContent = `Logged in as ${user.email}`;
+    status.textContent = `logged in as ${user.email}`;
     status.style.display = 'block';
     addBtn.style.display = 'inline-block';
     document.getElementById('loginForm').style.display = 'none';
