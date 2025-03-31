@@ -1,20 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-import {
-  getDatabase,
-  ref,
-  push,
-  onValue
-} from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
-// rest of your code continues here...
-
-
-// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyAtow4_eedoVN1W4p4BQyOVd8tFR9_U5uo",
   authDomain: "sams-dictionary.firebaseapp.com",
@@ -73,11 +60,9 @@ onAuthStateChanged(auth, user => {
 function addNewWord(e) {
   e.preventDefault();
   if (!currentUser) return showToast("Please log in to add words.");
-
   const word = document.getElementById('newWord').value.trim();
   const wordClass = document.getElementById('newClass').value;
   const definition = document.getElementById('newDefinition').value.trim();
-
   if (!word || !wordClass || !definition) return;
 
   const newEntry = { word, class: wordClass, definition };
