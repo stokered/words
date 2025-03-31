@@ -11,6 +11,9 @@ import {
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
+// rest of your code continues here...
+
+
 // Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyAtow4_eedoVN1W4p4BQyOVd8tFR9_U5uo",
