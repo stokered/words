@@ -11,7 +11,7 @@ import {
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
-// 🔥 Firebase config
+// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyAtow4_eedoVN1W4p4BQyOVd8tFR9_U5uo",
   authDomain: "sams-dictionary.firebaseapp.com",
@@ -33,7 +33,6 @@ let sortedWords = [];
 let currentIndex = 0;
 const wordsPerLoad = 20;
 
-// ✅ Load words from Firebase
 function loadWordsFromFirebase() {
   onValue(wordsRef, snapshot => {
     const data = snapshot.val();
@@ -45,7 +44,6 @@ function loadWordsFromFirebase() {
   });
 }
 
-// ✅ Login
 function loginUser(e) {
   e.preventDefault();
   const email = document.getElementById('email').value.trim();
@@ -55,7 +53,6 @@ function loginUser(e) {
     .catch(error => showToast('❌ ' + error.message));
 }
 
-// ✅ Handle login state
 onAuthStateChanged(auth, user => {
   currentUser = user;
   const status = document.getElementById('loginStatus');
@@ -65,18 +62,14 @@ onAuthStateChanged(auth, user => {
     status.textContent = `Logged in as ${user.email}`;
     addSection.style.display = 'block';
   } else {
-    status.textContent = 'Not logged in';
+    status.textContent = 'not logged in';
     addSection.style.display = 'none';
   }
 });
 
-// ✅ Add new word
 function addNewWord(e) {
   e.preventDefault();
-  if (!currentUser) {
-    showToast("Please log in to add words.");
-    return;
-  }
+  if (!currentUser) return showToast("Please log in to add words.");
 
   const word = document.getElementById('newWord').value.trim();
   const wordClass = document.getElementById('newClass').value;
@@ -86,25 +79,21 @@ function addNewWord(e) {
 
   const newEntry = { word, class: wordClass, definition };
   push(wordsRef, newEntry);
-
   e.target.reset();
   showToast(`✨ Added "${word}" to the cloud!`);
 }
 
-// ✅ Display one word
 function displayWord(entry) {
   const output = document.getElementById('output');
   output.innerHTML = `<strong>${entry.word}</strong> (${entry.class}): ${entry.definition}`;
 }
 
-// ✅ Show random word
 function showRandomWord() {
   if (words.length === 0) return;
   const randomIndex = Math.floor(Math.random() * words.length);
   displayWord(words[randomIndex]);
 }
 
-// ✅ Show all words (initial and after search)
 function initShowAllWords(filtered = words) {
   currentIndex = 0;
   sortedWords = [...filtered].sort((a, b) => a.word.localeCompare(b.word));
@@ -112,21 +101,17 @@ function initShowAllWords(filtered = words) {
   loadMoreWords();
 }
 
-// ✅ Load next batch for infinite scroll
 function loadMoreWords() {
   const output = document.getElementById('output');
   const nextWords = sortedWords.slice(currentIndex, currentIndex + wordsPerLoad);
-
   nextWords.forEach(entry => {
     const div = document.createElement('div');
     div.innerHTML = `<strong>${entry.word}</strong> (${entry.class}): ${entry.definition}`;
     output.appendChild(div);
   });
-
   currentIndex += wordsPerLoad;
 }
 
-// ✅ Infinite scroll
 function handleScroll() {
   if (
     window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 &&
@@ -136,7 +121,15 @@ function handleScroll() {
   }
 }
 
-// ✅ Toast message
+function handleSearch() {
+  const query = document.getElementById('searchInput').value.toLowerCase();
+  const filtered = words.filter(entry =>
+    entry.word.toLowerCase().startsWith(query) ||
+    entry.definition.toLowerCase().includes(query)
+  );
+  initShowAllWords(filtered);
+}
+
 function showToast(message) {
   const toast = document.getElementById('toast');
   toast.textContent = message;
@@ -146,26 +139,13 @@ function showToast(message) {
   }, 2500);
 }
 
-// ✅ Search functionality
-function handleSearch() {
-  const query = document.getElementById('searchInput').value.toLowerCase();
-  const filtered = words.filter(entry =>
-    entry.word.toLowerCase().includes(query) ||
-    entry.definition.toLowerCase().includes(query)
-  );
-  initShowAllWords(filtered);
-}
-
-// ✅ On page load
 window.onload = () => {
   loadWordsFromFirebase();
-
   document.getElementById('randomBtn').addEventListener('click', showRandomWord);
   document.getElementById('allBtn').addEventListener('click', () => initShowAllWords());
   document.getElementById('addWordForm').addEventListener('submit', addNewWord);
   document.getElementById('loginForm').addEventListener('submit', loginUser);
   document.getElementById('searchInput').addEventListener('input', handleSearch);
   window.addEventListener('scroll', handleScroll);
-
-  document.getElementById('email').focus(); // Autofocus login
+  document.getElementById('email').focus();
 };
