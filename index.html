@@ -4,34 +4,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>sam's dictionary</title>
-  <link rel="icon" type="image/x-icon" href="magnify2.png" />
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="icon" href="magnify2.png" />
+  <link rel="stylesheet" href="styles.css?v=2" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tagesschrift&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lacquer&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- 🔐 Login Form -->
-  <form id="loginForm">
-    <input type="email" id="email" placeholder="email" required />
-    <input type="password" id="password" placeholder="password" required />
-    <button type="submit">login</button>
-  </form>
-
-  <p id="loginStatus">not logged in</p>
-
-  <!-- 🔠 Dictionary Header -->
   <h1>sam's dictionary</h1>
 
-  <!-- 🔍 Search -->
+  <!-- search and nav -->
   <input type="text" id="searchInput" placeholder="search words..." />
   <button id="randomBtn">get a random word</button>
   <button id="allBtn">show all words</button>
+  <button id="toggleAddForm">add a new word</button>
 
-  <!-- ➕ Toggle Button for Adding Words -->
-  <button id="toggleAddForm" style="display: none;">add a new word</button>
-
-  <!-- 📝 Hidden Add Form (toggle visible when button clicked) -->
+  <!-- add words -->
   <div id="addWordSection" style="display: none;">
     <h2>add new word</h2>
     <form id="addWordForm">
@@ -48,13 +39,10 @@
     </form>
   </div>
 
-  <!-- 📤 Word Display -->
   <div id="output"></div>
 
-  <!-- 🔔 Toast Notification -->
   <div id="toast" class="toast"></div>
 
-  <!-- 📜 Script -->
   <script type="module" src="./script.js"></script>
 </body>
 </html>

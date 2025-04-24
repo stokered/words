@@ -1,126 +1,124 @@
-/* 🌒 Dark Academia x Lovecraftian Spellbook Theme 🌘 */
-
 body {
-    font-family: "DM Serif Text", serif;
-    background-color: #1e1c1a;
-    background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
-    color: #eae0c8;
-    text-align: center;
-    padding: 2rem;
-    line-height: 1.6;
-  }
-  
-  h1, h2 {
-    color: #f2e9dc;
-    text-shadow: 0 0 2px rgba(255, 235, 200, 0.4);
-  }
-  
-  button {
-    margin: 1rem;
-    padding: 0.8rem 1.5rem;
-    font-size: 1rem;
-    cursor: pointer;
-    font-family: "DM Serif Text", serif;
-    background: linear-gradient(145deg, #3b2f2f, #2e2323);
-    color: #f4e9d8;
-    border: 1px solid #5c4b3b;
-    border-radius: 10px;
-    box-shadow: inset 0 0 0.5em rgba(255,255,255,0.1), 0 0 0.4em rgba(0,0,0,0.5);
-    transition: all 0.3s ease;
-  }
-  
-  button:hover {
-    background: #4b3d3d;
-    transform: translateY(-2px);
-  }
-  
-  #output {
-    margin-top: 2rem;
-    text-align: left;
-    max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
-    font-family: "DM Serif Text", serif;
-    background: rgba(30, 28, 26, 0.85);
-    padding: 1.5rem;
-    border-radius: 10px;
-    border: 1px solid #3a2e2e;
-    box-shadow: 0 0 20px rgba(0,0,0,0.3);
-  }
-  
-  /* Toast Notification */
-  .toast {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #2f2727;
-    color: #e5d4b8;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 1rem;
-    opacity: 0;
-    transition: opacity 0.5s ease, bottom 0.5s ease;
-    z-index: 1000;
-    border: 1px solid #5a4747;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.6);
-  }
-  
-  .toast.show {
-    opacity: 1;
-    bottom: 40px;
-  }
-  
-  #searchInput {
-    margin-top: 1rem;
-    padding: 0.7rem;
-    font-size: 1rem;
-    width: 100%;
-    max-width: 400px;
-    border-radius: 8px;
-    border: 1px solid #726050;
-    background-color: #2a2520;
-    color: #eae0c8;
-    font-family: "DM Serif Text", serif;
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);
-  }
-  
-  input, select, option {
-    font-family: "DM Serif Text", serif;
-    background-color: #2a2520;
-    color: #eae0c8;
-    border: 1px solid #5a4747;
-    padding: 0.5rem;
-    border-radius: 6px;
-  }
-  
-  input:focus, select:focus {
-    outline: none;
-    box-shadow: 0 0 5px rgba(255, 240, 200, 0.5);
-  }
-  
-  #addWordSection {
-    background: rgba(46, 39, 35, 0.9);
-    border: 1px solid #4c3b2a;
-    padding: 1rem;
-    max-width: 600px;
-    margin: 2rem auto;
-    border-radius: 12px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
-  }
-  
-  #loginForm {
-    margin-bottom: 1rem;
-    background: rgba(36, 32, 28, 0.9);
-    padding: 1rem;
-    border-radius: 10px;
-    border: 1px solid #3d2f2f;
-    display: inline-block;
-  }
-  
-  #loginStatus {
-    margin: 1rem;
-    font-style: italic;
-    color: #c2b09e;
-  }
-  
+  font-family: "Tagesschrift", system-ui;
+  background: #f3eaff;
+  color: #1B1B1B;
+  text-align: center;
+  padding: 2rem;
+  line-height: 1.6;
+  overflow-x: hidden;
+  position: relative;
+}
+
+h1, h2 {
+  font-family: "Lacquer", system-ui;
+  color: #4c2c91;
+  text-shadow: 0 0 3px rgba(118, 84, 178, 0.3);
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+button {
+  margin: 1rem;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+  font-family: "Lacquer", system-ui;
+  background: linear-gradient(145deg, #9b6bcc, #5e3e96);
+  color: #f8f4ff;
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+#output {
+  margin-top: 2rem;
+  text-align: left;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  background: #e7d7fb;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 2px solid #b497dd;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+}
+
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #f8f0ff;
+  color: #4c2c91;
+  padding: 16px 30px;
+  font-family: "Tagesschrift", system-ui;
+  font-size: 1.1rem;
+  opacity: 0;
+  transition: opacity 0.5s ease, bottom 0.5s ease;
+  z-index: 1000;
+  border: 2px solid #b497dd;
+  border-radius: 10px;
+  box-shadow: 0 0 30px rgba(155, 108, 202, 0.3);
+  max-width: 300px;
+  text-align: center;
+}
+
+.toast.show {
+  opacity: 1;
+  bottom: 40px;
+}
+
+#searchInput {
+  margin-top: 1rem;
+  padding: 0.8rem;
+  font-size: 1rem;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 10px;
+  border: 2px solid #9b6bcc;
+  background-color: #ffffff;
+  color: #1B1B1B;
+  font-family: "Tagesschrift", system-ui;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+}
+
+input, select, option {
+  font-family: "Tagesschrift", system-ui;
+  background-color: #ffffff;
+  color: #1B1B1B;
+  border: 2px solid #9b6bcc;
+  padding: 0.6rem;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+input:focus, select:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(155, 108, 202, 0.5);
+}
+
+#addWordSection {
+  background: #f2e6ff;
+  border: 2px solid #b497dd;
+  padding: 2rem;
+  max-width: 600px;
+  margin: 2rem auto;
+  border-radius: 16px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  color: #4c2c91;
+}
